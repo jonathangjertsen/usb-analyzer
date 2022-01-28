@@ -28,11 +28,15 @@ USBAnalyzerSettings::USBAnalyzerSettings()
 
     mDecodeLevelInterface.SetNumber( OUT_CONTROL_TRANSFERS );
 
+    mIncludeSOFInterface.SetTitleAndTooltip( "Include SOF packets", "Include Start-of-Frame packets" );
+    mIncludeSOFInterface.SetValue( true );
+
     // add the interface
     AddInterface( &mDPChannelInterface );
     AddInterface( &mDMChannelInterface );
     AddInterface( &mSpeedInterface );
     AddInterface( &mDecodeLevelInterface );
+    AddInterface( &mIncludeSOFInterface );
 
     // describe export
     AddExportOption( 0, "Export as text file" );
@@ -66,6 +70,7 @@ bool USBAnalyzerSettings::SetSettingsFromInterfaces()
     mDMChannel = mDMChannelInterface.GetChannel();
     mSpeed = USBSpeed( int( mSpeedInterface.GetNumber() ) );
     mDecodeLevel = USBDecodeLevel( int( mDecodeLevelInterface.GetNumber() ) );
+    mIncludeSOF = mIncludeSOFInterface.GetValue();
 
     if( mDMChannel == mDPChannel )
     {

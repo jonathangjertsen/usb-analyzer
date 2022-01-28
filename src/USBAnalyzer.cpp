@@ -98,7 +98,12 @@ void USBAnalyzer::WorkerThread()
                     if( mSettings.mDecodeLevel == OUT_CONTROL_TRANSFERS )
                         lastFrameEnd = SendPacketToHandler( pckt );
                     else if( mSettings.mDecodeLevel == OUT_PACKETS )
-                        lastFrameEnd = pckt.AddPacketFrames( mResults.get() );
+                    {
+                        if( mSettings.mIncludeSOF || pckt.mPID != PID_SOF )
+                        {
+                            lastFrameEnd = pckt.AddPacketFrames( mResults.get() );
+                        }
+                    }
                     else if( mSettings.mDecodeLevel == OUT_BYTES )
                         lastFrameEnd = pckt.AddRawByteFrames( mResults.get() );
                 }
@@ -180,7 +185,7 @@ const char* USBAnalyzer::GetAnalyzerName() const
 
 const char* GetAnalyzerName()
 {
-    return "USB LS and FS";
+    return "USB LS and FS + filter SOF packets";
 }
 
 Analyzer* CreateAnalyzer()

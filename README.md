@@ -1,3 +1,8 @@
+# About this fork
+
+This fork adds an option to filter out SOF (start-of-frame) packets.
+This makes the actual data more easy to locate in the data stream.
+
 # Saleae USB Analyzer
 
 Saleae USB Analyzer
